@@ -5,17 +5,7 @@
     :width="radius * 2"
     >
       <circle
-        class="underlying-circle"
-        stroke="grey"
-        fill="transparent"
-        :stroke-dasharray="circumference + ' ' + circumference"
-        :stroke-width="stroke"
-        :r="normalizedRadius"
-        :cx="radius"
-        :cy="radius"
-        />
-      <circle
-        stroke="white"
+        :stroke="strokeColour"
         fill="transparent"
         :stroke-dasharray="circumference + ' ' + circumference"
         :style="{ strokeDashoffset }"
@@ -30,7 +20,7 @@
 <script lang="ts">
 export default {
   name: "Ring",
-  props: ["radius", "progress", "stroke"],
+  props: ["radius", "progress", "stroke", "strokeColour"],
   data() {
     const normalizedRadius = this.radius - this.stroke * 2;
     const circumference = normalizedRadius * 2 * Math.PI;
@@ -54,7 +44,9 @@ export default {
 }
 
 circle {
-  transition: stroke-dashoffset 0.5s ease-in;
+  filter: drop-shadow(5px 5px 24px rgba(255, 255, 255, 0.25));
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
 }
 
 /* 
