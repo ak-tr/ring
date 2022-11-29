@@ -3,7 +3,7 @@
       class="toggle" ref="toggle"
       width="24"
       height="24"
-      :fill="isDarkMode ? 'white' : 'black'"
+      fill="grey"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -46,12 +46,7 @@ export default {
   padding: 10px;
   margin: 10px;
   cursor: pointer;
-  animation: entry 1s linear 1s forwards;
-  transition: fill 0.5s, fill 0.25s ease-in-out;
-}
-
-.toggle:hover {
-  fill: grey;
+  animation: entry 1s linear 0.75s forwards;
 }
 
 @keyframes entry {

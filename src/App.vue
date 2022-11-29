@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <ModeToggle @mode-toggled="onModeToggled" />
+    <ThemeToggle />
     <Ring
       v-for="ring in Object.values(rings)"
       :key="ring.index"
@@ -15,6 +16,7 @@
 <script lang="ts">
 import Ring from "./components/Ring.vue";
 import ModeToggle from "./components/ModeToggle.vue"
+import ThemeToggle from "./components/ThemeToggle.vue";
 
 const strokeColours = ["ffcdb2","ffb4a2","e5989b","b5838d","6d6875"];
 
@@ -26,7 +28,8 @@ const isSmall = window.innerWidth < 740;
 export default {
   components: {
     Ring,
-    ModeToggle
+    ModeToggle,
+    ThemeToggle
   },
   data() {
     return {
@@ -80,7 +83,7 @@ export default {
       return `0${Math.floor(number)}`.slice(-2);
     },
     onModeToggled(isDarkMode: boolean) {
-      document.body.style.backgroundColor = isDarkMode ? "#171717" : "#f6f9fa"
+      document.body.style.backgroundColor = isDarkMode ? "#171717" : "#f6f9fa";
     }
   },
   mounted() {
@@ -134,7 +137,6 @@ export default {
   justify-content: center;
   align-items: center;
   animation: entry 1s backwards cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
 }
 
 @keyframes entry {

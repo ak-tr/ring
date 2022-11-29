@@ -3,7 +3,6 @@
     class="ring"
     :height="radius * 2"
     :width="radius * 2"
-    ref="ring"
     >
       <circle
         class="main-circle"
@@ -58,7 +57,7 @@ export default {
 .main-circle {
   filter: drop-shadow(5px 5px 24px rgba(255, 255, 255, 0.15));
   stroke-linecap: round;
-  transition: stroke-dashoffset 1s linear;
+  transition: stroke-dashoffset 1s cubic-bezier(0.31, 0.03, 0, 1);
 }
 
 .underlying-circle {
