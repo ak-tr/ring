@@ -3,12 +3,24 @@
     class="ring"
     :height="radius * 2"
     :width="radius * 2"
+    ref="ring"
     >
       <circle
+        class="main-circle"
         :stroke="strokeColour"
         fill="transparent"
-        :stroke-dasharray="circumference + ' ' + circumference"
+        :stroke-dasharray="`${circumference} ${circumference}`"
         :style="{ strokeDashoffset }"
+        :stroke-width="stroke"
+        :r="normalizedRadius"
+        :cx="radius"
+        :cy="radius"
+      />
+      <circle
+        class="underlying-circle"
+        stroke="grey"
+        fill="transparent"
+        :stroke-dasharray="`${circumference} ${circumference}`"
         :stroke-width="stroke"
         :r="normalizedRadius"
         :cx="radius"
@@ -43,16 +55,11 @@ export default {
   position: absolute;
 }
 
-circle {
-  filter: drop-shadow(5px 5px 24px rgba(255, 255, 255, 0.25));
+.main-circle {
+  filter: drop-shadow(5px 5px 24px rgba(255, 255, 255, 0.15));
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
 }
-
-/* 
-.ring:hover {
-  opacity: 0.2;
-} */
 
 .underlying-circle {
   opacity: 0.2;
