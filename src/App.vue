@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <ModeToggle @mode-toggled="onModeToggled" />
     <Ring
       v-for="ring in Object.values(rings)"
       :key="ring.index"
@@ -13,13 +14,19 @@
 
 <script lang="ts">
 import Ring from "./components/Ring.vue";
+import ModeToggle from "./components/ModeToggle.vue"
 
-const width = window.innerWidth;
-const isSmall = width < 400;
+const strokeColours = ["ffcdb2","ffb4a2","e5989b","b5838d","6d6875"];
+
+// If pixel width of window is less than 740
+// device is considered small and rings
+// are rendered at a smaller size
+const isSmall = window.innerWidth < 740;
 
 export default {
   components: {
     Ring,
+    ModeToggle
   },
   data() {
     return {
@@ -29,47 +36,52 @@ export default {
           radius: isSmall ? "220" : "360",
           progress: 0,
           stroke: isSmall ? 35 : 60,
-          strokeColour: "#cdb4db",
+          strokeColour: `#${strokeColours[0]}`,
         },
         day: {
           index: 1,
           radius: isSmall ? "175" : "280",
           progress: 0,
           stroke: isSmall ? 30 : 50,
-          strokeColour: "#ffc8dd",
+          strokeColour: `#${strokeColours[1]}`,
         },
         hours: {
           index: 2,
           radius: isSmall ? "135" : "210",
           progress: 0,
           stroke: isSmall ? 25 : 40,
-          strokeColour: "#ffafcc",
+          strokeColour: `#${strokeColours[2]}`,
         },
         minutes: {
           index: 3,
           radius: isSmall ? "100" : "150",
           progress: 0,
           stroke: isSmall ? 20 : 30,
-          strokeColour: "#bde0fe",
+          strokeColour: `#${strokeColours[3]}`,
         },
         seconds: {
           index: 4,
           radius: isSmall ? "70" : "115",
           progress: 0,
           stroke: isSmall ? 15 : 30,
-          strokeColour: "#a2d2ff",
+          strokeColour: `#${strokeColours[4]}`,
         },
       },
     };
   },
   methods: {
+    // Function to map a value from a specified range to
+    // a range between 0 and 100
     scale(number: number, inMin: number, inMax: number) {
       return ((number - inMin) * (100 - 0)) / (inMax - inMin);
     },
+    // Pad single digit values with 0
     zeroPad(number: number) {
-      // Pad single digit values with 0
       return `0${Math.floor(number)}`.slice(-2);
     },
+    onModeToggled(isDarkMode: boolean) {
+      document.body.style.backgroundColor = isDarkMode ? "#171717" : "#f6f9fa"
+    }
   },
   mounted() {
     let dateObj = new Date();
@@ -117,10 +129,11 @@ export default {
 <style scoped>
 .container {
   height: 100vh;
+  max-height: -webkit-fill-available;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: entry 1s forwards cubic-bezier(0.71, 0.1, 0.19, 1.05);
+  animation: entry 1s backwards cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 
