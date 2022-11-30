@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <ModeToggle @mode-toggled="onModeToggled" />
-    <ThemeRandomiser @colour-change="onColourChangeRequest" />
+    <div class="buttons">
+      <ModeToggle @mode-toggled="onModeToggled" />
+      <ThemeRandomiser @colour-change="onColourChangeRequest" />
+      <DefaultThemeButton @colour-change="onColourChangeRequest" />
+    </div>
     <Ring
       v-for="ring in Object.values(rings)"
       :key="ring.index"
@@ -18,8 +21,9 @@
 import Ring from "./components/Ring.vue";
 import ModeToggle from "./components/ModeToggle.vue";
 import ThemeRandomiser from "./components/ThemeRandomiser.vue";
+import DefaultThemeButton from "./components/DefaultThemeButton.vue";
 
-const defaultStrokeColours = ["#ffcdb2", "#ffb4a2", "#e5989b", "#b5838d", "#6d6875"];
+export const defaultStrokeColours = ["#ffcdb2", "#ffb4a2", "#e5989b", "#b5838d", "#6d6875"];
 
 const strokeColours = localStorage.getItem("strokeColours") 
   ? JSON.parse(localStorage.getItem("strokeColours") as string) 
@@ -30,6 +34,7 @@ export default {
     Ring,
     ModeToggle,
     ThemeRandomiser,
+    DefaultThemeButton
   },
   data() {
     return {
@@ -159,6 +164,16 @@ export default {
   justify-content: center;
   align-items: center;
   animation: entry 1s backwards cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 @keyframes entry {
