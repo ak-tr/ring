@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <ModeToggle @mode-toggled="onModeToggled" />
-    <ThemeToggle />
+    <ThemeToggle @colour-change="onColourChangeRequest" />
     <Ring
       v-for="ring in Object.values(rings)"
       :key="ring.index"
@@ -64,9 +64,9 @@ export default {
         },
         seconds: {
           index: 4,
-          radius: isSmall ? "70" : "115",
+          radius: isSmall ? "85" : "115",
           progress: 0,
-          stroke: isSmall ? 15 : 30,
+          stroke: isSmall ? 25 : 30,
           strokeColour: `#${strokeColours[4]}`,
         },
       },
@@ -84,6 +84,11 @@ export default {
     },
     onModeToggled(isDarkMode: boolean) {
       document.body.style.backgroundColor = isDarkMode ? "#171717" : "#f6f9fa";
+    },
+    onColourChangeRequest(colours: string[]) {
+      Object.values(this.rings).forEach((ring, index) => {
+        ring.strokeColour = colours[index];
+      })
     }
   },
   mounted() {
@@ -131,6 +136,7 @@ export default {
 
 <style scoped>
 .container {
+  position: relative;
   height: 100vh;
   max-height: -webkit-fill-available;
   display: flex;
