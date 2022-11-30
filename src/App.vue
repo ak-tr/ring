@@ -14,6 +14,7 @@
       :strokeColour="ring.strokeColour"
       :scale="calculateScaleFactor()"
     />
+    <Footer />
   </div>
 </template>
 
@@ -22,9 +23,12 @@ import Ring from "./components/Ring.vue";
 import ModeToggle from "./components/ModeToggle.vue";
 import ThemeRandomiser from "./components/ThemeRandomiser.vue";
 import DefaultThemeButton from "./components/DefaultThemeButton.vue";
+import Footer from "./components/Footer.vue";
 
 export const defaultStrokeColours = ["#ffcdb2", "#ffb4a2", "#e5989b", "#b5838d", "#6d6875"];
 
+// Get stroke colours from local storage
+// otherwise provide default stroke colours
 const strokeColours = localStorage.getItem("strokeColours") 
   ? JSON.parse(localStorage.getItem("strokeColours") as string) 
   : defaultStrokeColours;
@@ -34,7 +38,8 @@ export default {
     Ring,
     ModeToggle,
     ThemeRandomiser,
-    DefaultThemeButton
+    DefaultThemeButton,
+    Footer,
   },
   data() {
     return {
@@ -169,8 +174,8 @@ export default {
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 10px;
+  gap: 15px;
+  margin: 15px;
   position: absolute;
   top: 0;
   right: 0;
