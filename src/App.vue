@@ -9,64 +9,60 @@
       :progress="ring.progress"
       :stroke="ring.stroke"
       :strokeColour="ring.strokeColour"
+      :scale="calculateScaleFactor()"
     />
   </div>
 </template>
 
 <script lang="ts">
 import Ring from "./components/Ring.vue";
-import ModeToggle from "./components/ModeToggle.vue"
+import ModeToggle from "./components/ModeToggle.vue";
 import ThemeToggle from "./components/ThemeToggle.vue";
 
-const strokeColours = ["ffcdb2","ffb4a2","e5989b","b5838d","6d6875"];
-
-// If pixel width of window is less than 740
-// device is considered small and rings
-// are rendered at a smaller size
-const isSmall = window.innerWidth < 740;
+const strokeColours = ["ffcdb2", "ffb4a2", "e5989b", "b5838d", "6d6875"];
 
 export default {
   components: {
     Ring,
     ModeToggle,
-    ThemeToggle
+    ThemeToggle,
   },
   data() {
     return {
       rings: {
         month: {
           index: 0,
-          radius: isSmall ? "220" : "360",
+          radius: 360,
           progress: 0,
-          stroke: isSmall ? 35 : 60,
+          stroke: 60,
           strokeColour: `#${strokeColours[0]}`,
         },
         day: {
           index: 1,
-          radius: isSmall ? "175" : "280",
+          radius: 280,
           progress: 0,
-          stroke: isSmall ? 30 : 50,
+          stroke: 50,
           strokeColour: `#${strokeColours[1]}`,
         },
         hours: {
           index: 2,
-          radius: isSmall ? "135" : "210",
+          radius: 210,
           progress: 0,
-          stroke: isSmall ? 25 : 40,
+          stroke: 40,
           strokeColour: `#${strokeColours[2]}`,
         },
         minutes: {
           index: 3,
-          radius: isSmall ? "100" : "150",
+          radius: 150,
           progress: 0,
-          stroke: isSmall ? 20 : 30,
+          stroke: 30,
           strokeColour: `#${strokeColours[3]}`,
         },
         seconds: {
           index: 4,
-          radius: isSmall ? "85" : "115",
+          radius: 115,
           progress: 0,
-          stroke: isSmall ? 25 : 30,
+          stroke: 30,
           strokeColour: `#${strokeColours[4]}`,
         },
       },
@@ -88,7 +84,19 @@ export default {
     onColourChangeRequest(colours: string[]) {
       Object.values(this.rings).forEach((ring, index) => {
         ring.strokeColour = colours[index];
-      })
+      });
+    },
+    calculateScaleFactor() {
+      // Get smallest of height or width
+      const sizes = [window.innerHeight, window.innerWidth];
+      const minOfSize = Math.min(...sizes);
+      
+      // Divide by 720 which is the width of the
+      // largest ring
+      const scaleFactor = (minOfSize / 720);
+
+      // If it is more than 1 scale down
+      return scaleFactor > 1 ? scaleFactor * 0.9 : scaleFactor;
     }
   },
   mounted() {
