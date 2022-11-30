@@ -17,11 +17,13 @@ export default {
   font-family: "SF Mono", sans-serif;
   position: absolute;
   font-size: 12px;
+  right: 0;
   bottom: 0;
-  padding-bottom: 10px;
+  padding: 15px;
   color: grey;
   opacity: 0;
   animation: entry 1s linear 1s forwards;
+  writing-mode: vertical-lr;
 }
 
 a {
