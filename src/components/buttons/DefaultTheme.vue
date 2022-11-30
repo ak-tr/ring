@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import { defaultStrokeColours } from '../App.vue';
+import { defaultStrokeColours } from '../../App.vue';
 
 export default {
-  name: "DefaultThemeButton",
+  name: "DefaultTheme",
   methods: {
     onClick() {
       this.$emit("colourChange", defaultStrokeColours);
