@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <ModeToggle @mode-toggled="onModeToggled" />
-    <ThemeToggle @colour-change="onColourChangeRequest" />
+    <ThemeRandomiser @colour-change="onColourChangeRequest" />
     <Ring
       v-for="ring in Object.values(rings)"
       :key="ring.index"
@@ -17,15 +17,19 @@
 <script lang="ts">
 import Ring from "./components/Ring.vue";
 import ModeToggle from "./components/ModeToggle.vue";
-import ThemeToggle from "./components/ThemeToggle.vue";
+import ThemeRandomiser from "./components/ThemeRandomiser.vue";
 
-const strokeColours = ["ffcdb2", "ffb4a2", "e5989b", "b5838d", "6d6875"];
+const defaultStrokeColours = ["#ffcdb2", "#ffb4a2", "#e5989b", "#b5838d", "#6d6875"];
+
+const strokeColours = localStorage.getItem("strokeColours") 
+  ? JSON.parse(localStorage.getItem("strokeColours") as string) 
+  : defaultStrokeColours;
 
 export default {
   components: {
     Ring,
     ModeToggle,
-    ThemeToggle,
+    ThemeRandomiser,
   },
   data() {
     return {
@@ -35,35 +39,35 @@ export default {
           radius: 360,
           progress: 0,
           stroke: 60,
-          strokeColour: `#${strokeColours[0]}`,
+          strokeColour: strokeColours[0],
         },
         day: {
           index: 1,
           radius: 280,
           progress: 0,
           stroke: 50,
-          strokeColour: `#${strokeColours[1]}`,
+          strokeColour: strokeColours[1],
         },
         hours: {
           index: 2,
           radius: 210,
           progress: 0,
           stroke: 40,
-          strokeColour: `#${strokeColours[2]}`,
+          strokeColour: strokeColours[2],
         },
         minutes: {
           index: 3,
           radius: 150,
           progress: 0,
           stroke: 30,
-          strokeColour: `#${strokeColours[3]}`,
+          strokeColour: strokeColours[3],
         },
         seconds: {
           index: 4,
           radius: 115,
           progress: 0,
           stroke: 30,
-          strokeColour: `#${strokeColours[4]}`,
+          strokeColour: strokeColours[4],
         },
       },
     };
@@ -82,6 +86,10 @@ export default {
       document.body.style.backgroundColor = isDarkMode ? "#171717" : "#f6f9fa";
     },
     onColourChangeRequest(colours: string[]) {
+      // Store in localStorage for persisting ring
+      // colours on refresh
+      localStorage.setItem("strokeColours", JSON.stringify(colours));
+
       Object.values(this.rings).forEach((ring, index) => {
         ring.strokeColour = colours[index];
       });
