@@ -25,10 +25,8 @@ export default {
     }
   },
   methods: {
-    generateRandomColour() {
-      return "hsl(" + 360 * Math.random() + "," +
-                (25 + 70 * Math.random()) + "%," + 
-                (85 + 10 * Math.random()) + "%)"
+    generateRandomColour(){
+      return `hsla(${~~(360 * Math.random())},70%,70%,0.8)`
     },
     onClick() {
       // Create an array of size 5 and apply a random
