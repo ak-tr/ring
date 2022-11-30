@@ -38,11 +38,6 @@ export default {
 
 <style scoped>
 .toggle {
-  position: absolute;
-  top: 36px;
-  right: 0;
-  padding: 10px;
-  margin: 10px;
   opacity: 0;
   cursor: pointer;
   animation: entry 1s linear 1s forwards;

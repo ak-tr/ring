@@ -1,6 +1,7 @@
 <template>
     <svg
-      class="toggle" ref="toggle"
+      class="toggle"
+      @click="onClick"
       width="24"
       height="24"
       fill="grey"
@@ -26,25 +27,18 @@ export default {
       isDarkMode: true,
     };
   },
-  mounted() {
-    const toggleSwitch = this.$refs.toggle as HTMLElement;
-
-    toggleSwitch.addEventListener("click", () => {
+  methods: {
+    onClick() {
       this.isDarkMode = !this.isDarkMode;
       this.$emit("modeToggled", this.isDarkMode);
-    });
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
 .toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
   opacity: 0;
-  padding: 10px;
-  margin: 10px;
   cursor: pointer;
   animation: entry 1s linear 0.75s forwards;
 }
