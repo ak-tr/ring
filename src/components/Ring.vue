@@ -7,6 +7,7 @@
     >
       <circle
         class="main-circle"
+        ref="circle"
         :stroke="strokeColour"
         fill="transparent"
         :stroke-dasharray="`${circumference} ${circumference}`"
@@ -42,6 +43,21 @@ export default {
       circumference
     };
   },
+  watch: {
+    progress(o: number, n: number) {
+      if (o < n) {
+        const circle = this.$refs.circle as HTMLElement;
+        circle.animate([
+          { transform: "rotate(360deg)" },
+          { transform: "rotate(0deg)" },
+        ],
+        {
+          duration: 750,
+          easing: "cubic-bezier(0.31, 0.03, 0, 1)"
+        })
+      }
+    }
+  },
   computed: {
     strokeDashoffset() {
       return this.circumference - this.progress / 100 * this.circumference;
@@ -60,6 +76,7 @@ export default {
 }
 
 .main-circle {
+  transform-origin: center;
   filter: drop-shadow(5px 5px 24px rgba(255, 255, 255, 0.15));
   stroke-linecap: round;
   transition: 
