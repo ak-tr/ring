@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Buttons 
+    <Buttons
       @mode-toggled="onModeToggled"
       @colour-change="onColourChangeRequest"
     />
@@ -22,12 +22,18 @@ import Ring from "./components/Ring.vue";
 import Buttons from "./components/Buttons.vue";
 import Footer from "./components/Footer.vue";
 
-export const defaultStrokeColours = ["#ffcdb2", "#ffb4a2", "#e5989b", "#b5838d", "#6d6875"];
+export const defaultStrokeColours = [
+  "#ffcdb2",
+  "#ffb4a2",
+  "#e5989b",
+  "#b5838d",
+  "#6d6875",
+];
 
 // Get stroke colours from local storage
 // otherwise provide default stroke colours
-const strokeColours = localStorage.getItem("strokeColours") 
-  ? JSON.parse(localStorage.getItem("strokeColours") as string) 
+const strokeColours = localStorage.getItem("strokeColours")
+  ? JSON.parse(localStorage.getItem("strokeColours") as string)
   : defaultStrokeColours;
 
 export default {
@@ -103,14 +109,14 @@ export default {
       // Get smallest of height or width
       const sizes = [window.innerHeight, window.innerWidth];
       const minOfSize = Math.min(...sizes);
-      
+
       // Divide by 720 which is the width of the
       // largest ring
-      const scaleFactor = (minOfSize / 720);
+      const scaleFactor = minOfSize / 720;
 
       // If it is more than 1 scale down
       return scaleFactor > 1 ? scaleFactor * 0.9 : scaleFactor;
-    }
+    },
   },
   mounted() {
     let dateObj = new Date();
@@ -125,29 +131,23 @@ export default {
 
       const millis = dateObj.getMilliseconds();
       const seconds = dateObj.getSeconds();
-      const minutes = dateObj.getMinutes();
-      const hours = dateObj.getHours();
 
       // Parse seconds and milliseconds into float
       const secondsWithMillis = parseFloat(`${seconds}.${millis}`);
       // Map range of 0-60 to range 0-100
       const secondsScaled = this.scale(secondsWithMillis, 0, 60);
 
-      const minutesWithSeconds = parseFloat(
-        `${minutes}.${this.zeroPad(secondsScaled)}`
-      );
-      const minutesScaled = this.scale(minutesWithSeconds, 0, 61);
-
       this.rings.seconds.progress = secondsScaled;
-      this.rings.minutes.progress = minutesScaled;
 
-      const day = this.scale(dateObj.getDate(), 1, lastDay.getDate());
+      const minutes = this.scale(dateObj.getMinutes(), 0, 60);
+      const hours = this.scale(dateObj.getHours(), 0, 24);
+      const day = this.scale(dateObj.getDate() + 1, 1, lastDay.getDate());
       const month = this.scale(dateObj.getMonth() + 1, 1, 12);
 
-      // Only render change in hours, days
+      // Only render change in minutes, hours, days
       // and months when necessary
-      if (this.rings.hours.progress != hours)
-        this.rings.hours.progress = this.scale(hours, 0, 24);
+      if (this.rings.minutes.progress != hours) this.rings.minutes.progress = minutes;
+      if (this.rings.hours.progress != hours) this.rings.hours.progress = hours;
       if (this.rings.day.progress != day) this.rings.day.progress = day;
       if (this.rings.month.progress != month) this.rings.month.progress = month;
     }, 1000);
